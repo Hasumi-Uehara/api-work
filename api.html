@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API</title>
+  <style>
+    #map-canvas {
+      width: 100%;
+      height: 600px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Google Maps API</h1>
+  <div id="map-canvas"></div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5C81mf-i6o7cNqyPjbh4LAZh_41TOMtU&libraries=places,geometry,drawing&lang=ja&callback=initMap"></script>
+
+  <script>
+
+    let mapDiv = document.getElementById('map-canvas');
+
+    // 地図のオプション
+    let mapOptions = {
+      backgroundColor: 'yellow',
+      center: new google.maps.LatLng(33.58701309579583, 130.37862875144134),
+      zoom: 11,
+    };
+
+    // インスタンスを生成
+    let map = new google.maps.Map(mapDiv,mapOptions);
+
+    // 現在位置の取得に失敗したときに実行する関数（エラーを表示する）
+    function showError(error) {
+      let e = '';
+      if (error.code == 1){
+        e = '位置情報が許可されてません';
+      }else if (error.code == 2){
+        e = '現在位置を特定できません';
+      }else if (error.code == 3){
+        e = '位置情報を取得する前にタイムアウトになりました';
+      }
+      alert('エラー' + e);
+    }
+
+    window.onload = function () {
+      navigator.geolocation.getCurrentPosition(showError);
+    }
+  </script>
+
+</body>
+</html>
